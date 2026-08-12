@@ -1,0 +1,3 @@
+pytest>=8.0
+streamlit>=1.35
+# Optional: torch transformers datasets peft trl bitsandbytes
