@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ask My Docs</title>
+    <link rel="stylesheet" href="/static/style.css?v=2">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">HYBRID RAG</p>
+                <h1>Ask My Docs</h1>
+                <p class="subtitle">Answers grounded in your indexed documents.</p>
+            </div>
+            <div class="health" aria-live="polite">
+                <span id="statusDot" class="status-dot"></span>
+                <span id="statusText">Connecting...</span>
+                <span id="documentStats"></span>
+            </div>
+        </header>
+
+        <main>
+            <section id="messages" class="messages" aria-live="polite">
+                <div id="welcome" class="welcome-card">
+                    <h2>What would you like to know?</h2>
+                    <p>Ask a question covered by the FastAPI, Kubernetes, or security documents.</p>
+                    <div class="suggestions">
+                        <button type="button" data-question="What is FastAPI?">What is FastAPI?</button>
+                        <button type="button" data-question="What is the principle of least privilege?">What is least privilege?</button>
+                        <button type="button" data-question="What is a Kubernetes Pod?">What is a Kubernetes Pod?</button>
+                    </div>
+                </div>
+            </section>
+
+            <form id="askForm" class="composer">
+                <label for="question" class="sr-only">Question</label>
+                <textarea id="question" rows="1" placeholder="Ask a question about your documents..." required></textarea>
+                <button id="sendButton" type="submit">Ask</button>
+            </form>
+            <p id="requestStatus" class="request-status" aria-live="polite"></p>
+        </main>
+
+        <footer>
+            BM25 + vector search · cross-encoder reranking · verified citations
+        </footer>
+    </div>
+    <script src="/static/app.js?v=2" defer></script>
+</body>
+</html>

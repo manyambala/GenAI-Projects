@@ -1,0 +1,122 @@
+[
+  {
+    "id": "k8s_001",
+    "question": "What is the difference between a Deployment and a Pod in Kubernetes?",
+    "expected_sources": ["sample_kubernetes.md"],
+    "expected_answer_contains": ["Deployment", "Pod", "manage"],
+    "min_citations": 1,
+    "category": "kubernetes"
+  },
+  {
+    "id": "k8s_002",
+    "question": "How does the Horizontal Pod Autoscaler work?",
+    "expected_sources": ["sample_kubernetes.md"],
+    "expected_answer_contains": ["CPU", "metrics", "scale"],
+    "min_citations": 1,
+    "category": "kubernetes"
+  },
+  {
+    "id": "k8s_003",
+    "question": "What are the different types of Services in Kubernetes?",
+    "expected_sources": ["sample_kubernetes.md"],
+    "expected_answer_contains": ["ClusterIP", "NodePort", "LoadBalancer"],
+    "min_citations": 1,
+    "category": "kubernetes"
+  },
+  {
+    "id": "k8s_004",
+    "question": "How do you manage storage in Kubernetes?",
+    "expected_sources": ["sample_kubernetes.md"],
+    "expected_answer_contains": ["PersistentVolume", "PersistentVolumeClaim"],
+    "min_citations": 1,
+    "category": "kubernetes"
+  },
+  {
+    "id": "k8s_005",
+    "question": "What is a Blue-Green deployment strategy?",
+    "expected_sources": ["sample_kubernetes.md"],
+    "expected_answer_contains": ["environment", "switch", "traffic"],
+    "min_citations": 1,
+    "category": "kubernetes"
+  },
+  {
+    "id": "fastapi_001",
+    "question": "How do I handle path parameters in FastAPI?",
+    "expected_sources": ["sample_fastapi.md"],
+    "expected_answer_contains": ["path", "parameter", "decorator"],
+    "min_citations": 1,
+    "category": "fastapi"
+  },
+  {
+    "id": "fastapi_002",
+    "question": "Explain the Dependency Injection system in FastAPI.",
+    "expected_sources": ["sample_fastapi.md"],
+    "expected_answer_contains": ["Depends", "injection", "reusable"],
+    "min_citations": 1,
+    "category": "fastapi"
+  },
+  {
+    "id": "fastapi_003",
+    "question": "How can I implement JWT authentication in FastAPI?",
+    "expected_sources": ["sample_fastapi.md"],
+    "expected_answer_contains": ["JWT", "token", "OAuth2"],
+    "min_citations": 1,
+    "category": "fastapi"
+  },
+  {
+    "id": "fastapi_004",
+    "question": "How do I test a FastAPI application?",
+    "expected_sources": ["sample_fastapi.md"],
+    "expected_answer_contains": ["pytest", "TestClient", "httpx"],
+    "min_citations": 1,
+    "category": "fastapi"
+  },
+  {
+    "id": "fastapi_005",
+    "question": "How to handle background tasks in FastAPI?",
+    "expected_sources": ["sample_fastapi.md"],
+    "expected_answer_contains": ["BackgroundTasks", "async", "function"],
+    "min_citations": 1,
+    "category": "fastapi"
+  },
+  {
+    "id": "sec_001",
+    "question": "What is the principle of least privilege?",
+    "expected_sources": ["sample_security.md"],
+    "expected_answer_contains": ["minimum", "access", "RBAC"],
+    "min_citations": 1,
+    "category": "security"
+  },
+  {
+    "id": "sec_002",
+    "question": "What are the data classification levels?",
+    "expected_sources": ["sample_security.md"],
+    "expected_answer_contains": ["Public", "Internal", "Confidential", "Restricted"],
+    "min_citations": 1,
+    "category": "security"
+  },
+  {
+    "id": "sec_003",
+    "question": "What are the steps in incident response?",
+    "expected_sources": ["sample_security.md"],
+    "expected_answer_contains": ["detection", "containment", "eradication", "recovery"],
+    "min_citations": 1,
+    "category": "security"
+  },
+  {
+    "id": "sec_004",
+    "question": "What are the encryption standards at rest?",
+    "expected_sources": ["sample_security.md"],
+    "expected_answer_contains": ["encryption", "rest", "AES"],
+    "min_citations": 1,
+    "category": "security"
+  },
+  {
+    "id": "sec_005",
+    "question": "What is required for third-party risk assessment?",
+    "expected_sources": ["sample_security.md"],
+    "expected_answer_contains": ["vendor", "assessment", "risk"],
+    "min_citations": 1,
+    "category": "security"
+  }
+]

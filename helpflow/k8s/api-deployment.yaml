@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpflow-api
+  namespace: helpflow
+  labels:
+    app: helpflow-api
+spec:
+  replicas: 1
+  # Recreate prevents two API pods from writing to the same SQLite file.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: helpflow-api
+  template:
+    metadata:
+      labels:
+        app: helpflow-api
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 10001
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: seed-runbooks
+          image: helpflow-api:local
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c"]
+          args: ["mkdir -p /app/data/documents /app/data/vector_index /app/data/backups /app/data/logs; cp -rn /app/bundled-data/documents/. /app/data/documents/ || true"]
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            runAsNonRoot: true
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /app/data
+      containers:
+        - name: api
+          image: helpflow-api:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: helpflow-config
+            - secretRef:
+                name: helpflow-secrets
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /app/data
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: sqlite-data
+          persistentVolumeClaim:
+            claimName: helpflow-sqlite

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helpflow-frontend
+  namespace: helpflow
+spec:
+  selector:
+    app: helpflow-frontend
+  ports:
+    - name: http
+      port: 8501
+      targetPort: http
+  type: ClusterIP

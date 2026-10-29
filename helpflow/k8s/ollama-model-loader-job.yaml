@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ollama-model-loader
+  namespace: helpflow
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels:
+        app: ollama-model-loader
+    spec:
+      restartPolicy: OnFailure
+      automountServiceAccountToken: false
+      containers:
+        - name: model-loader
+          image: ollama/ollama:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OLLAMA_HOST
+              value: http://ollama:11434
+            - name: OLLAMA_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: helpflow-config
+                  key: OLLAMA_MODEL
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              until ollama list >/dev/null 2>&1; do
+                echo "Waiting for Ollama..."
+                sleep 3
+              done
+              ollama pull "$OLLAMA_MODEL"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi

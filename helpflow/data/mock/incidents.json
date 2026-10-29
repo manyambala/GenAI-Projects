@@ -1,0 +1,1 @@
+{"payment":[{"summary":"Gateway timeout","resolution":"Reduced retry burst and escalated provider latency","time_taken":"42m"}],"database":[{"summary":"Pool exhaustion","resolution":"Closed leaked sessions and added pool alert","time_taken":"55m"}],"authentication":[],"notification":[],"api":[]}

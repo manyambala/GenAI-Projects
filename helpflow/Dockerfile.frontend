@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 HOME=/home/helpflow
+WORKDIR /app
+RUN addgroup --system --gid 10001 helpflow && adduser --system --uid 10001 --ingroup helpflow --home /home/helpflow helpflow
+COPY requirements.frontend.txt .
+RUN pip install --no-cache-dir -r requirements.frontend.txt
+COPY frontend ./frontend
+RUN mkdir -p /home/helpflow && chown -R helpflow:helpflow /app /home/helpflow
+USER helpflow
+EXPOSE 8501
+CMD ["streamlit", "run", "frontend/streamlit_app.py", "--server.address", "0.0.0.0", "--server.port", "8501", "--server.headless", "true"]

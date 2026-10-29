@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpflow-frontend
+  namespace: helpflow
+  labels:
+    app: helpflow-frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: helpflow-frontend
+  template:
+    metadata:
+      labels:
+        app: helpflow-frontend
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: frontend
+          image: helpflow-frontend:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8501
+          env:
+            - name: API_URL
+              value: http://helpflow-api:8000
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10

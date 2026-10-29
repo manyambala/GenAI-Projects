@@ -1,0 +1,41 @@
+name: RAG Evaluation Gate
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+env:
+  PYTHONHASHSEED: "0"
+  TOKENIZERS_PARALLELISM: "false"
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Ingest sample documents
+        run: python scripts/ingest.py --docs-dir ./docs
+      - name: Run evaluation suite
+        run: pytest tests/ -v --tb=short --junitxml=eval-report.xml
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Run evaluation script
+        run: python scripts/evaluate.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Upload evaluation report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evaluation-report
+          path: |
+            eval-report.xml
+            eval-results.json
